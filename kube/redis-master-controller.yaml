@@ -1,4 +1,4 @@
-apiVesion: v1
+apiVersion: v1 
 kind: ReplicationController
 metadata:
   name: redis-master
@@ -11,10 +11,10 @@ spec:
   template:
     metadata:
       labels:
-        name redis-master
+        name: redis-master
     spec:
       containers:
         - name: master
           image: kubeguide/redis-master
-          prots:
+          ports:
           - containerPort: 6379  
