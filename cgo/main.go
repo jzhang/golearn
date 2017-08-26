@@ -26,7 +26,7 @@ void dofoo(void) {
 	}
 }
 
-int cArray[] = {1, 2, 3, 4, 5, 6, 7};
+int cArray[] = {0, 2, 3, 4, 5, 6, 7, 8};
 
 */
 import "C"
@@ -35,13 +35,12 @@ import (
 	"unsafe"
 )
 
-func CArrayToGoArray(cArray unsafe.Pointer, size int) (goArray []int) {
+func CArrayToGoArray(cArray unsafe.Pointer, size int) (goArray []int32) {
 	p := uintptr(cArray)
 	for i := 0; i < size; i++ {
-		j := *(*int)(unsafe.Pointer(p))
-		fmt.Println(j)
+		j := *(*int32)(unsafe.Pointer(p))
 		goArray = append(goArray, j)
-		p += unsafe.Sizeof(j)
+		p += C.sizeof_int
 	}
 	return
 }
@@ -54,6 +53,8 @@ func main() {
 	f := C.intFunc(C.fortytwo)
 	fmt.Println(int(C.bridge_int_func(f)))
 	C.dofoo()
-	goArray := CArrayToGoArray(unsafe.Pointer(&C.cArray[0]), 7)
+	fmt.Println(C.sizeof_int)
+	goArray := CArrayToGoArray(unsafe.Pointer(&C.cArray[0]), 8)
 	fmt.Println(goArray)
+
 }
