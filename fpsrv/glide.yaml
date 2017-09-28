@@ -1,0 +1,3 @@
+package: github.com/jzhang/golearn/fpsrv
+import:
+- package: github.com/minio/sha256-simd
