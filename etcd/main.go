@@ -12,7 +12,7 @@ func main() {
 	cfg := embed.NewConfig()
 	cfg.Dir = "default.etcd"
 	cfg.EnablePprof = true
-	
+
 	e, err := embed.StartEtcd(cfg)
 	if err != nil {
 		log.Fatal(err)
