@@ -1,0 +1,539 @@
+
+syntax = "proto3";
+
+package grpcs3;
+
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+
+/* Error Code */
+enum ErrorCode {
+    AccessOK                            = 0;
+    AccessDenied	                    = 1;          
+    AccountProblem                      = 2;                   
+    AmbiguousGrantByEmailAddress        = 3;
+    BadDigest	                        = 4;        	
+    BucketAlreadyExists	                = 5;
+    BucketAlreadyOwnedByYou	            = 6;
+    BucketNotEmpty	                    = 7;
+    CredentialsNotSupported             = 8;
+    CrossLocationLoggingProhibited      = 9;
+    EntityTooSmall	                    = 10;
+    EntityTooLarge	                    = 11;
+    ExpiredToken	                    = 12;
+    IllegalVersioningConfigurationException = 13;
+    IncompleteBody                      = 14;
+    IncorrectNumberOfFilesInPostRequst  = 15;
+    InlineDataTooLarge	                = 16;
+    InternalError	                    = 17;
+    InvalidAccessKeyId	                = 18;
+    InvalidAddressingHeader	            = 19;
+    InvalidArgument	                    = 20;
+    InvalidBucketName	                = 21;
+    InvalidBucketState                  = 22;
+    InvalidDigest	                    = 23;
+    InvalidEncryptionAlgorithmError	    = 24;
+    InvalidLocationConstraint           = 25;
+    InvalidObjectState                  = 26;
+    InvalidPart	                        = 27;
+    InvalidPartOrder            	    = 28;
+    InvalidPayer	                    = 29;
+    InvalidPolicyDocument	            = 30;
+    InvalidRange	                    = 31;
+    InvalidRequest	               	    = 32;       
+    InvalidSecurity	                    = 33;
+    InvalidSOAPRequest	                = 34;
+    InvalidStorageClass	                = 35;
+    InvalidTargetBucketForLogging	    = 36;
+    InvalidToken	                    = 37;
+    InvalidURI	                        = 38;
+    KeyTooLong	                        = 39;
+    MalformedACLError	                = 40;
+    MalformedPOSTRequest	            = 41;
+    MalformedXML	                    = 42;
+    MaxMessageLengthExceeded	        = 43;
+    MaxPostPreDataLengthExceededError   = 44;
+    MetadataTooLarge	                = 45;
+    MethodNotAllowed	                = 46;
+    MissingAttachment	                = 47;
+    MissingContentLength	            = 48;
+    MissingRequestBodyError	            = 49;
+    MissingSecurityElement	            = 50;
+    MissingSecurityHeader	            = 51;
+    NoLoggingStatusForKey	            = 52;
+    NoSuchBucket	                    = 53;
+    NoSuchKey	                        = 54;
+    NoSuchLifecycleConfiguration	    = 55;
+    NoSuchUpload	                    = 56;
+    NoSuchVersion	                    = 57;
+    NotImplemented	                    = 58;
+    NotSignedUp	                        = 59;
+    NoSuchBucketPolicy	                = 60;
+    OperationAborted	                = 61;
+    PermanentRedirect	                = 62;
+    PreconditionFailed	                = 63;
+    Redirect	                        = 64;
+    RestoreAlreadyInProgress	        = 65;
+    RequestIsNotMultiPartContent        = 66;
+    RequestTimeout	                    = 67;
+    RequestTimeTooSkewed	            = 68;
+    RequestTorrentOfBucketError	        = 69;
+    SignatureDoesNotMatch	            = 70;
+    ServiceUnavailable                  = 71;
+    SlowDown	                        = 72;
+    TemporaryRedirect                   = 73;
+    TokenRefreshRequired                = 74;
+    TooManyBuckets	                    = 75;
+    UnexpectedContent	                = 76;
+    UnresolvableGrantByEmailAddress	    = 77;
+    UserKeyMustBeSpecified	            = 78;
+}
+
+enum AmzStorageClass {
+    STANDARD    = 0;
+    STANDARD_IA = 1;
+    REDUCED_REDUNDANCY =2; 
+    GLACIER = 3;
+}
+
+enum AmzACL {
+    private            = 0;
+    public_read        = 1;
+    public_read_write  = 2;
+    aws_exec_read      = 3;
+    authenticated_read = 4; 
+    bucket_owner_read  = 5;
+    bucket_owner_full_control = 6;
+}
+
+enum AmzPermisson {
+    READ = 0;
+    WRITE = 1;
+    READ_ACP = 2;
+    WRITE_ACP = 3;
+    FULL_CONTROL = 4;	
+}
+
+enum AmzLocation {
+    option allow_alias = true;
+    us_west_1      = 0; 
+    us_west_2      = 1;
+    ca_central_1   = 2;
+    EU             = 3;
+    eu_west_1      = 3; 
+    eu_west_2      = 4; 
+    eu_central_1   = 5;
+    apsouth_1      = 6;
+    ap_southeast_1 = 7; 
+    ap_southeast_2 = 8;
+    apnortheast_1  = 9; 
+    ap_northeast_2 = 10;
+    sa_east_1      = 11;
+    useast_2       = 12;
+}
+
+enum AmzRepStatus {
+    PENDING   = 0;
+    COMPLETED = 1;
+    FAILED    = 2;
+    REPLICA   = 3;
+}
+
+message CommReqHdr {
+    string          Authorization        = 1;
+    uint64          Content_Length       = 2;
+    string          Content_Type         = 3;
+    string          Content_MD5          = 4;
+    google.protobuf.Timestamp Date       = 5;
+    uint32          Expect               = 6;
+    string          Host                 = 7;
+    string          x_amz_content_sha256 = 8;
+    google.protobuf.Timestamp x_amz_date = 9;
+    string          x_amz_security_token = 10;    
+    string          x_amz_mfa            = 11;
+}
+
+message CommRspHdr {
+    uint64           Content_Length = 1;
+    string           Content_Type   = 2;
+    string           Connnection    = 3;
+    google.protobuf.Timestamp Date  = 4;
+    string           Etag           = 5;
+    string           Server         = 6;
+    bool      x_amz_delete_marker   = 7;
+    string    x_amz_id_2            = 8;
+    string    x_amz_request_id      = 9;
+    string    x_amz_version_id      = 10;
+    ErrorCode x_ext_error_code      = 11;
+}
+
+message AmzOwner {
+    string ID          = 1;
+    string DisplayName = 2;
+}
+
+message AmzAccount {
+    string email_address = 1;
+    string uri = 2;
+    string id = 3;
+}
+
+message AmzGrant {
+    AmzPermisson permission = 1;
+    repeated AmzAccount account = 2;
+}
+
+message AmzBucket {
+    string                            Name = 1;
+    google.protobuf.Timestamp CreationDate = 2;
+}
+
+message AmzBucketCtx {
+    string Key  = 1;
+    google.protobuf.Timestamp LastModified = 2;
+    uint64 Size = 3;
+    string Etag = 4;
+    AmzStorageClass StorageClass = 5;
+    AmzOwner Owner = 6;  
+}
+
+message AmzObject {
+    string Key       = 1;
+    string VersionId = 2;
+}
+
+message AmzDelete {
+    string Key = 1;
+    string VersionId = 2;
+    bool DeleteMarker = 3;
+    string DeleteMarkerVersionId = 4;
+}
+message AmzDelErr {
+    string Key = 1;
+    ErrorCode Code = 2;
+    string Message = 3;
+}
+
+message AmzPart {
+    uint64 PartNumber = 1;
+    string Etag = 2;
+    google.protobuf.Timestamp LastModified = 3;
+    uint64 Size = 4; 
+}
+
+message AmzInitiator {
+    string ID          = 1;
+    string DisplayName = 2;
+}
+
+message AmzListParts {
+    string Bucket   = 1;
+    string Key      = 2;
+    string UploadId = 3;
+    AmzInitiator Initiator = 4;
+    AmzOwner Owner = 5;
+    AmzStorageClass StorageClass = 6;
+    string PartNumberMarker = 7;
+    string NextPartNumberMarker = 8;
+    string MaxParts = 9;
+    bool IsTruncated = 10;
+    repeated AmzPart Part = 11;
+}
+
+/* Get Service messages */
+message GetServiceReq {
+    CommReqHdr Hdr = 1;
+}
+
+message GetServiceRsp {
+    CommRspHdr Hdr   = 1;
+    AmzOwner  Owner = 2;
+    repeated AmzBucket Buckets = 3;
+}
+
+/* Delete Bucket */
+message DeleteBucketReq {
+    CommReqHdr Hdr    = 1;
+    string BucketName = 2;
+}
+
+message DeleteBucketRsp {
+    CommRspHdr Hdr = 1;
+}
+
+/* Get Bucket */
+message GetBucketReq {
+    CommReqHdr     Hdr          = 1;
+    string         BucketName   = 2;
+    uint32         list_type    = 3;  //always be 2
+}
+
+message GetBucketRsp {
+    CommRspHdr Hdr           = 1;
+    string   Name            = 2;
+    string   Prefix          = 3;
+    uint64   MaxKeys         = 4;
+    uint64   KeyCount        = 5;
+    bool     IsTruncated     = 6;   
+    repeated AmzBucketCtx Contexts  = 7;
+}
+
+message HeadBucketReq {
+    CommReqHdr Hdr    = 1;
+    string BucketName = 2;
+}    
+
+message HeadBucketRsp {
+    CommRspHdr     Hdr = 1;
+}
+
+message PutBucketReq {
+    CommReqHdr Hdr         = 1;
+    string     BucketName  = 2;
+    AmzACL     x_amz_acl   = 3;
+    repeated AmzGrant x_amz_grant = 4;
+    AmzLocation  LocationConstraint = 5;    
+}    
+
+message PutBucketRsp {
+    CommRspHdr     Hdr = 1;
+    AmzLocation    Location = 2;
+}
+
+message DeleteMultipleObjectsReq {
+    CommReqHdr Hdr   = 1;
+    bool       Quiet = 2;
+    repeated   AmzObject Delete = 3;
+}    
+
+message DeleteMultipleObjectsRsp {
+    CommRspHdr         Hdr     = 1;
+    repeated AmzDelete Deleted = 2;
+    repeated AmzDelErr Error   = 3;
+}
+
+message DeleteObjectReq {
+    CommReqHdr Hdr    = 1;
+    string BucketName = 2;
+    string ObjectName = 3;
+}    
+
+message DeleteObjectRsp {
+    CommRspHdr     Hdr = 1;
+}
+
+message GetObjectReq {
+    CommReqHdr Hdr        = 1;
+    string     BucketName = 2;
+    string     ObjectName = 3;
+    string     Range = 4;
+    string     If_Modified_Since = 5;
+    string     If_Unmodified_Since = 6;
+    string     If_Match = 7;
+    string     If_None_Match = 8;       
+}    
+
+message GetObjectRsp {
+    CommRspHdr     Hdr = 1;
+    /* response header */
+    string x_amz_expiration = 2;
+    repeated string x_amz_meta = 3;
+    AmzRepStatus x_amz_replication_status = 4;
+    AmzStorageClass x_amz_storage_class = 5;
+    string x_amz_restore = 6;
+    string x_amz_tagging_count = 7;
+    string x_amz_version_id = 8;
+    string x_amz_website_redirect_location = 9;
+    repeated bytes object_content = 10;
+}
+
+message HeadObjectReq {
+    CommReqHdr Hdr  = 1;
+    string  BucketName = 2;
+    string  ObjectName = 3;
+    string  Range = 4;
+    string  If_Modified_Since = 5;
+    string  If_Unmodified_Since = 6;
+    string  If_Match = 7;
+    string  If_None_Match = 8;
+}    
+
+message HeadObjectRsp {
+    CommRspHdr     Hdr = 1;
+    string x_amz_expiration = 2;
+    repeated string x_amz_meta = 3;
+    string x_amz_misssing_meta = 4;
+    string x_amz_replication_status = 5;
+    string x_amz_restore = 6;
+    AmzStorageClass x_amz_storage_class = 7;
+    string x_amz_version_id = 8;
+}
+
+message OptionsObjectReq {
+    CommReqHdr Hdr    = 1;
+    string ObjectName = 2;
+    string BucketName = 3;
+    string Origin     = 4;
+    string access_control_request_method  = 5;
+    string access_control_request_headers = 6;
+}    
+
+message OptionsObjectRsp {
+    CommRspHdr Hdr = 1;
+    string access_control_allow_origin   = 2;
+    string access_control_max_age        = 3;
+    string access_control_allow_method   = 4;
+    string access_control_allow_headers  = 5;
+    string access_control_expose_headers = 6;
+}
+
+message PostObjectReq {
+    CommReqHdr Hdr = 1;
+    string BucketName = 2;
+    string AWSAccessKeyId = 3;
+    AmzACL Scl = 4;
+    string Cache_Control = 5;
+    string Content_Disposition = 6;
+    string Content_Encoding = 7;
+    string Expires = 8;
+    string file = 9;
+    string key = 10;
+    string policy = 11;
+    string success_action_redirect = 12;
+    string success_action_status = 13;
+    string tagging = 14;
+    AmzStorageClass x_amz_storage_class = 15;
+    repeated string x_amz_meta = 16;
+    string x_amz_website_redirect_location = 17;
+    repeated bytes object_content = 18;
+}    
+
+message PostObjectRsp {
+    CommRspHdr Hdr = 1;
+    string x_amz_expiration = 2;
+    string success_action_redirect = 3;
+    string x_amz_version_id = 5;
+    string Bucket = 6;
+    string ETag = 7;
+    string Key = 8;
+    AmzLocation Location = 9;
+}
+
+message PutObjectReq {
+    CommReqHdr Hdr    = 1;
+    string ObjectName = 2;
+    string BucketName = 3;
+    string Cache_Control = 4;
+    string Content_Disposition = 5;
+    string Content_Encoding = 6;
+    string Expires = 7;
+    string file = 8;
+    repeated string x_amz_meta = 9;
+    AmzStorageClass x_amz_storage_class = 10;
+    string tagging = 11;
+    string x_amz_website_redirect_location = 12;
+    AmzACL x_amz_acl  = 13;
+    repeated AmzGrant  x_amz_grant = 14;
+    repeated bytes object_content = 15;
+}    
+
+message PutObjectRsp {
+    CommRspHdr Hdr = 1;
+    string x_amz_expiration = 2;
+    string x_amz_version_id = 3;
+}
+
+message InitiateMultipartUploadReq {
+    CommReqHdr Hdr = 1;
+    string BucketName = 2;
+    string ObjectName = 3;
+    string Cache_Control = 4;
+    string Content_Disposition = 5;
+    string Content_Encoding = 6;
+    string Expect = 7;
+    string Expires = 8;
+    repeated string x_amz_meta = 10;
+    AmzStorageClass x_amz_storage_class = 11;
+    string x_amz_website_redirect_location = 13;
+    AmzACL x_amz_acl  = 14;
+    repeated AmzGrant x_amz_grant = 15;
+}    
+
+message InitiateMultipartUploadRsp {
+    CommRspHdr Hdr = 1;
+    string x_amz_abort_date = 2;
+    string x_amz_abort_rule_id = 3;
+    string Bucket = 4;
+    string Key = 5;
+    string UploadId = 6;
+}
+
+message CompleteMultipartUploadReq {
+    CommReqHdr Hdr        = 1;
+    string BucketName = 2;
+    string ObjectName = 3;
+    string UploadId = 4;
+    repeated AmzPart Part = 5;
+}    
+
+message CompleteMultipartUploadRsp {
+    CommRspHdr     Hdr = 1;
+    string x_amz_expiration = 2;
+    string x_amz_version_id = 3;
+}
+
+message AbortMultipartUploadReq {
+    CommReqHdr Hdr    = 1;
+    string BucketName = 2;
+    string OjectName  = 3;
+    string UploadId   = 4;
+}    
+
+message AbortMultipartUploadRsp {
+    CommRspHdr Hdr = 1;
+}
+
+message ListPartsReq {
+    CommReqHdr Hdr    = 1;
+    string BucketName = 2;
+    string OjectName  = 3;
+    string UploadId   = 4;
+    uint64 max_parts  = 5;
+    string part_numbermarker = 6;
+}    
+
+message ListPartsRsp {
+    CommRspHdr   Hdr = 1;
+    AmzListParts ListPartsResult = 2;
+}
+
+message UploadPartReq {
+    CommReqHdr Hdr    = 1;
+    string BucketName = 2;
+    string OjectName  = 3;
+    string UploadId   = 4;
+    string PartNumber = 5;
+}    
+
+message UploadPartRsp {
+    CommRspHdr     Hdr = 1;
+}
+
+service S3Service {
+    rpc GetService   (GetServiceReq)    returns (GetServiceRsp);
+    rpc DeleteBucket (DeleteBucketReq)  returns (DeleteBucketRsp);
+    rpc GetBucket    (GetBucketReq)     returns (GetBucketRsp);
+    rpc HeadBucket   (HeadBucketReq)    returns (HeadBucketRsp);
+    rpc PutBucket    (PutBucketReq)     returns (PutBucketRsp);
+    rpc DeleteObject (DeleteObjectReq)  returns (DeleteObjectRsp);
+    rpc GetObject    (GetObjectReq)     returns (GetObjectRsp);
+    rpc HeadObject   (HeadObjectReq)    returns (HeadObjectRsp);
+    rpc OptionsObject(OptionsObjectReq) returns (OptionsObjectRsp);
+    rpc PostObject   (PostObjectReq)    returns (PostObjectRsp);
+    rpc DeleteMultipleObjects   (DeleteMultipleObjectsReq)   returns (DeleteMultipleObjectsRsp);
+    rpc InitiateMultipartUpload (InitiateMultipartUploadReq) returns (InitiateMultipartUploadRsp);
+    rpc CompleteMultipartUpload (CompleteMultipartUploadReq) returns (CompleteMultipartUploadRsp);
+    rpc AbortMultipartUpload    (AbortMultipartUploadReq)    returns (AbortMultipartUploadRsp);
+    rpc ListParts   (ListPartsReq)  returns (ListPartsRsp);
+    rpc UploadParts (UploadPartReq) returns (UploadPartRsp);
+}
