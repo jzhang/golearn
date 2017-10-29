@@ -1,0 +1,15 @@
+package: github.com/jzhang/golearn/stringsvc2
+import:
+- package: github.com/go-kit/kit
+  version: ~0.6.0
+  subpackages:
+  - endpoint
+  - log
+  - metrics
+  - metrics/prometheus
+  - transport/http
+- package: github.com/prometheus/client_golang
+  version: ~0.9.0-pre1
+  subpackages:
+  - prometheus
+  - prometheus/promhttp
