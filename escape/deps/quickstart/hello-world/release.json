@@ -1,0 +1,73 @@
+{
+   "api_version": 8,
+   "built_with_core_version": "0.8.7",
+   "built_with_escape_version": "0.19.5",
+   "description": "",
+   "files": {
+      "README.md": "ec44b0bf21ac2674e21d466bcb223b2d",
+      "hello_world.sh": "071fcfa9f11d85df781bbc37ad22cf4c"
+   },
+   "logo": "",
+   "name": "hello-world",
+   "repository": "https://github.com/jzhang/golearn.git",
+   "branch": "master",
+   "git_revision": "",
+   "revision_message": "Merge branch 'master' of https://github.com/jzhang/golearn",
+   "revision_author": "jzhang \u003czhangchunzhong@gmail.com\u003e",
+   "metadata": {},
+   "version": "0.0.3",
+   "consumes": [],
+   "downloads": null,
+   "depends": [],
+   "errands": {},
+   "extends": [],
+   "inputs": [
+      {
+         "id": "who",
+         "type": "string",
+         "default": "World",
+         "description": "Who should we be greeting?",
+         "visible": true,
+         "items": null,
+         "eval_before_dependencies": true,
+         "scopes": [
+            "build",
+            "deploy"
+         ]
+      }
+   ],
+   "outputs": [],
+   "project": "quickstart",
+   "provides": [],
+   "stages": {
+      "build": {
+         "script": "hello_world.sh"
+      },
+      "deploy": {
+         "script": "hello_world.sh"
+      },
+      "destroy": {
+         "script": ""
+      },
+      "post_deploy": {
+         "script": ""
+      },
+      "post_destroy": {
+         "script": ""
+      },
+      "pre_deploy": {
+         "script": ""
+      },
+      "pre_destroy": {
+         "script": ""
+      },
+      "smoke": {
+         "script": ""
+      },
+      "test": {
+         "script": ""
+      }
+   },
+   "templates": [],
+   "variable_context": {}
+}
