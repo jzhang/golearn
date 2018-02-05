@@ -1,0 +1,78 @@
+{
+   "name": "jzhang",
+   "environments": {
+      "dev": {
+         "name": "dev",
+         "deployments": {
+            "quickstart/hello-world": {
+               "name": "quickstart/hello-world",
+               "release": "quickstart/hello-world",
+               "stages": {
+                  "build": {
+                     "inputs": {
+                        "who": "you"
+                     },
+                     "version": "0.0.3",
+                     "status": {
+                        "status": "pending",
+                        "updated_at": "2017-11-29T10:40:33.647831163+08:00"
+                     }
+                  },
+                  "deploy": {
+                     "version": "0.0.3",
+                     "status": {
+                        "status": "pending",
+                        "updated_at": "2017-11-29T10:40:33.652996523+08:00"
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "live": {
+         "name": "live",
+         "deployments": {
+            "quickstart/hello-world": {
+               "name": "quickstart/hello-world",
+               "release": "quickstart/hello-world",
+               "stages": {
+                  "deploy": {
+                     "calculated_inputs": {
+                        "who": "World"
+                     },
+                     "version": "0.0.3",
+                     "status": {
+                        "status": "ok",
+                        "updated_at": "2017-11-29T10:42:09.282987056+08:00"
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "stage": {
+         "name": "stage",
+         "deployments": {
+            "quickstart/hello-world": {
+               "name": "quickstart/hello-world",
+               "release": "quickstart/hello-world",
+               "stages": {
+                  "deploy": {
+                     "inputs": {
+                        "who": "Stage"
+                     },
+                     "calculated_inputs": {
+                        "who": "Stage"
+                     },
+                     "version": "0.0.3",
+                     "status": {
+                        "status": "ok",
+                        "updated_at": "2017-11-29T10:41:24.075689533+08:00"
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+}

@@ -1,0 +1,16 @@
+name: quickstart/hello-world
+version: 0.0.@
+description: 
+logo: 
+
+includes:
+- README.md
+
+build: hello_world.sh
+deploy: hello_world.sh
+
+inputs:
+- id: who
+  default: World
+  type: string
+  description: Who should we be greeting?
