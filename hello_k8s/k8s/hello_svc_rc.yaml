@@ -1,0 +1,22 @@
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  name: hello_svc-v1
+spec:
+  replicas: 3
+  selector:
+    name: hello_svc
+    version: "1"
+  template:
+    metadata:
+      labels:
+        name: hello_svc
+        version: "1"
+    spec:
+      containers:
+        - image: jzhang/hello_svc:latest
+          name: hello_svc
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 3000
+              protocol: TCP
